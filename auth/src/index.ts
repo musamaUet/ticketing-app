@@ -9,14 +9,23 @@ import { signoutRouter } from './routes/signout';
 import { errorHandler } from './middlewares/error-handler';
 import { NotFoundError } from './errors/not-found-error';
 import mongoose from 'mongoose';
+import cookieSession from 'cookie-session';
 
 const app = express();
+
+app.set('trust proxy', true);
 
 app.use(json());
 app.use(currentUserRouter);
 app.use(signupRouter);
 app.use(signinRouter);
 app.use(signoutRouter);
+app.use(
+	cookieSession({
+		signed: false,
+		secure: true,
+	})
+);
 
 app.all('/*', async () => {
 	throw new NotFoundError();
