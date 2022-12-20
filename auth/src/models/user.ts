@@ -29,8 +29,6 @@ const userSchema = new mongoose.Schema({
 	},
 });
 
-const User = mongoose.model<UserDocument, UserModel>('User', userSchema);
-
 userSchema.pre('save', async function (done) {
 	if (this.isModified('password')) {
 		const hashed = await Password.toHash(this.get('password'));
@@ -41,5 +39,7 @@ userSchema.pre('save', async function (done) {
 userSchema.statics.build = (attributes: UserAttributes) => {
 	return new User(attributes);
 };
+
+const User = mongoose.model<UserDocument, UserModel>('User', userSchema);
 
 export { User };

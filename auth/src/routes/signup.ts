@@ -17,21 +17,19 @@ router.post(
 			.withMessage('Password must be between 4 and 20 characters long'),
 	],
 	async (req: Request, res: Response) => {
-		console.log('in hre');
 		const errors = validationResult(req);
 		if (!errors.isEmpty()) {
 			throw new RequestValidationError(errors.array());
 		}
 		const { email, password } = req.body;
+
 		const existingUser = await User.findOne({ email });
 		if (existingUser) {
 			throw new BadRequestError('Email in use');
 		}
 
-		const user = await User.build({ email, password });
+		const user = User.build({ email, password });
 		await user.save();
-
-		console.log('user', user);
 		// Generate JWT
 
 		const userJwt = jwt.sign(
