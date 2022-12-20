@@ -27,17 +27,19 @@ app.use(
 	})
 );
 
-app.all('/*', async () => {
+app.all('/*', async (req, res) => {
+	console.log('request.url', req.url);
+	console.log('request.baseUrl', req.baseUrl);
+
 	throw new NotFoundError();
 });
 
 app.use(errorHandler);
 
-app.get('/api/users/currentuser', (req, res) => {
-	res.send('Hi there!');
-});
-
 const start = async () => {
+	if (!process.env.JWT_KEY) {
+		throw new Error('JWT_KEY must be defined');
+	}
 	try {
 		await mongoose.connect('mongodb://auth-mongo-service:27017/auth');
 		console.log('Connected to MongoDb');
