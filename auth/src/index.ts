@@ -16,16 +16,16 @@ const app = express();
 app.set('trust proxy', true);
 
 app.use(json());
-app.use(currentUserRouter);
-app.use(signupRouter);
-app.use(signinRouter);
-app.use(signoutRouter);
 app.use(
 	cookieSession({
 		signed: false,
 		secure: true,
 	})
 );
+app.use(currentUserRouter);
+app.use(signupRouter);
+app.use(signinRouter);
+app.use(signoutRouter);
 
 app.all('/*', async (req, res) => {
 	console.log('request.url', req.url);
