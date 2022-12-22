@@ -18,7 +18,7 @@ app.use(json());
 app.use(
 	cookieSession({
 		signed: false,
-		secure: true,
+		secure: process.env.JWT_KEY === 'test',
 	})
 );
 app.use(currentUserRouter);
