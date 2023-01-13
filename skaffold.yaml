@@ -8,6 +8,14 @@ build:
   local:
     push: false
   artifacts:
+    - image: musamauet/next-client
+      context: client
+      docker:
+        dockerfile: Dockerfile
+      sync:
+        manual:
+          - src: '**/*.js'
+            dest: .
     - image: musamauet/auth
       context: auth
       docker:
@@ -16,11 +24,11 @@ build:
         manual:
           - src: 'src/**/*.ts'
             dest: .
-    - image: musamauet/next-client
-      context: client
+    - image: mmusamauet/tickets
+      context: tickets
       docker:
         dockerfile: Dockerfile
       sync:
         manual:
-          - src: '**/*.js'
+          - src: '**/*.ts'
             dest: .

@@ -4,6 +4,7 @@ import 'express-async-errors';
 import { json } from 'body-parser';
 import { errorHandler, NotFoundError } from '@mu_tickets/common';
 import cookieSession from 'cookie-session';
+import { createTicketRouter } from './routes/new';
 
 const app = express();
 
@@ -16,11 +17,9 @@ app.use(
 		secure: process.env.JWT_KEY === 'test',
 	})
 );
+app.use(createTicketRouter);
 
 app.all('/*', async (req, res) => {
-	console.log('request.url', req.url);
-	console.log('request.baseUrl', req.baseUrl);
-
 	throw new NotFoundError();
 });
 
