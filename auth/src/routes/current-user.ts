@@ -1,8 +1,19 @@
 import express, { Request, Response } from 'express';
-import { currentUser } from '../middlewares/current-user';
-import { requireAuth } from '../middlewares/require-auth';
+import { currentUser, requireAuth } from '@mu_tickets/common';
 
 const router = express.Router();
+
+// interface RequestUserAuth extends Request {
+// 	currentUser?: string;
+// }
+
+declare global {
+	namespace Express {
+		interface Request {
+			currentUser?: string;
+		}
+	}
+}
 
 router.get(
 	'/api/users/currentuser',
